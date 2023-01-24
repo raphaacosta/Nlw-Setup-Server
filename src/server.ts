@@ -5,8 +5,7 @@ import { appRoutes } from "./routes";
 const app = fastify();
 
 app.register(cors);
-app.register(appRoutes)
-
+app.register(appRoutes);
 
 app.listen({
   port: 3333,
