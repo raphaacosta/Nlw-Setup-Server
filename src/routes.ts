@@ -4,6 +4,46 @@ import { z } from 'zod';
 import dayjs from 'dayjs';
 
 export async function appRoutes(app: FastifyInstance) {
+  app.post('/user', async (request) => {
+    const createUser = z.object({
+      name: z.string(),
+      email: z.string(),
+    })
+
+    const { email, name } = createUser.parse(request.body);
+
+    await prisma.user.create({
+      data: {
+        email,
+        name
+      }
+    })
+  })
+
+  app.patch('/user', async (request) => {
+    const updateUserParams = z.object({
+      id: z.string().uuid(),
+    });
+
+    const updateUserBody = z.object({
+      name: z.string().optional(),
+      email: z.string(),
+    })
+
+    const { id } = updateUserParams.parse(request.params);
+    const { name, email } = updateUserBody.parse(request.body);
+
+    await prisma.user.update({
+      data: {
+        name,
+        email
+      },
+      where: {
+        id
+      }
+    })
+  })
+
   app.post('/habits', async (request) => {
     const createHabitBody = z.object({
       title: z.string(),

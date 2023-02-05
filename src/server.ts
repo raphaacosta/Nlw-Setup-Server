@@ -1,10 +1,9 @@
 import fastify from "fastify";
 import cors from '@fastify/cors';
 import { appRoutes } from "./routes";
-import { WebPushRoutes } from "./notifications-routes";
+
 
 const app = fastify();
-
 app.register(cors);
 app.register(appRoutes)
 
